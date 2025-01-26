@@ -66,7 +66,7 @@
         >
           <div class="w-full h-52">
             <img
-              :src="product.images[0]"
+              :src="fixImageLinks(product.images)"
               alt="Product"
               class="w-full h-full object-contain rounded"
             />
@@ -93,6 +93,10 @@ const { data: categories } = useLazyAsyncData("categories", async () => {
   const url = `https://api.escuelajs.co/api/v1/categories`;
   return await $fetch(url);
 });
+
+const fixImageLinks = (imagesArray) => {
+  return imagesArray[0].replace(/[\[\]\"]/g, "").trim();
+};
 </script>
 
 <style>

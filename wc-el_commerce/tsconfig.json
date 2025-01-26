@@ -1,0 +1,9 @@
+{
+  // https://nuxt.com/docs/guide/concepts/typescript
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "strict": false,
+    "lib": ["es6", "dom", "esnext", "dom.iterable"],
+    "typeRoots": ["./types", "./types/**/*.d.ts", "./node_modules/@types"]
+  }
+}
