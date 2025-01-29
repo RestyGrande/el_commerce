@@ -54,7 +54,7 @@ onMounted(async () => {
       </ion-toolbar>
     </ion-header>
 
-    <IonContent :fullscreen="true" class="ion-padding">
+    <IonContent class="ion-padding">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Products</ion-title>
@@ -67,7 +67,29 @@ onMounted(async () => {
         </ion-fab-button>
       </ion-fab>
 
-      <ion-list>
+      <ion-card v-for="(product, index) in productStore.state">
+        <img alt="productPhoto" :src="product?.productPhoto" class="w-full" />
+        <ion-card-header>
+          <ion-card-title>{{ product.name }}</ion-card-title>
+          <ion-card-subtitle>{{ product.brand }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="flex gap-2">
+            <div class="grow flex gap-2">
+              <p>RP</p>
+              <h1>{{ formatMoney(product.retailPrice) }}</h1>
+            </div>
+
+            <div class="flex gap-2">
+              <p>WP</p>
+              <h1>{{ formatMoney(product.wholesalePrice) }}</h1>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- <ion-list>
         <ion-item-sliding v-for="(product, index) in productStore.state">
           <ion-item>
             <div class="w-24 h-24 md:w-48 md:h-48" slot="start">
@@ -106,7 +128,7 @@ onMounted(async () => {
             >
           </ion-item-options>
         </ion-item-sliding>
-      </ion-list>
+      </ion-list> -->
     </IonContent>
   </IonPage>
 </template>

@@ -11,6 +11,16 @@
             <ion-label>Home</ion-label>
           </ion-tab-button>
 
+          <ion-tab-button tab="home" href="/tabs/home">
+            <ion-icon :icon="ioniconsReceiptOutline" />
+            <ion-label>Invoice</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="home" href="/tabs/home">
+            <ion-icon :icon="ioniconsFileTrayStackedOutline" />
+            <ion-label>Inventory</ion-label>
+          </ion-tab-button>
+
           <!-- <ion-tab-button tab="tab2" href="/tabs/tab2">
             <ion-icon :icon="ioniconsImagesOutline" />
             <ion-label>Photos</ion-label>
