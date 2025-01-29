@@ -16,12 +16,19 @@ onMounted(async () => {
 
 <template>
   <IonPage>
+    <ion-header :translucent="true">
+      <ion-toolbar>
+        <ion-title>❄️ El Frozen Goods</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <IonContent class="min-h-screen bg-gray-100 p-4">
-      <div class="p-4">
-        <h1 class="font-poppins text-2xl sm:text-3xl md:text-4xl font-bold">
-          ❄️ El Frozen Goods
-        </h1>
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-title size="large">❄️ El Frozen Goods</ion-title>
+        </ion-toolbar>
+      </ion-header>
 
+      <div class="p-4">
         <div class="grid grid-cols-2 gap-4">
           <!-- New Users -->
           <NuxtLink to="/tabs/products" class="text-gray-800">
