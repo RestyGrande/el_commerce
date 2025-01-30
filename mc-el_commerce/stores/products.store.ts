@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import PouchDB from "pouchdb";
+import { useFilesystem } from "@/composables/useFilesystem";
 
 type Product = {
   _id: string;
@@ -8,30 +9,57 @@ type Product = {
   sellingPrices: [];
   createdAt: string;
   updatedAt: string;
+  productPhoto: any;
 };
 
 export const useProductStore = defineStore("products", () => {
   const state = ref<Product[]>([]);
   const count = ref(0);
   const db = new PouchDB("products");
+  const { savePhotoToFilesystem, retrievePhotoFromFilesystem } =
+    useFilesystem();
+
+  const isBase64 = (str: string): boolean => {
+    const base64Regex =
+      /^(data:\w+\/[a-zA-Z+\-.]+;base64,)?[A-Za-z0-9+/]+={0,2}$/;
+    return base64Regex.test(str);
+  };
 
   const load = async () => {
     if (!db) return;
     try {
       const result = await db.allDocs({ include_docs: true });
       count.value = result.total_rows;
-      state.value = result.rows.map((row: any) => {
-        const sellingPrices = [...row.doc.sellingPrices];
 
-        if (sellingPrices.length > 0) {
-          const sellingPrices = row.doc.sellingPrices[0];
-          const { retailPrice, wholesalePrice } = sellingPrices;
+      // Use Promise.all to handle async functions inside map
+      state.value = await Promise.all(
+        result.rows.map(async (row: any) => {
+          let productPhoto = row.doc.productPhoto;
 
-          if (retailPrice) row.doc.retailPrice = Number(retailPrice);
-          if (wholesalePrice) row.doc.wholesalePrice = Number(wholesalePrice);
-        }
-        return row.doc;
-      });
+          // Retrieve from filesystem if it's not Base64
+          if (!isBase64(productPhoto)) {
+            console.log({ productPhoto });
+
+            // productPhoto = await retrievePhotoFromFilesystem(productPhoto);
+          }
+
+          // Assign updated product photo
+          row.doc.productPhoto = productPhoto;
+
+          // Fix sellingPrices handling
+          const sellingPricesArray = row.doc.sellingPrices || [];
+
+          if (sellingPricesArray.length > 0) {
+            const firstSellingPrice = sellingPricesArray[0];
+            const { retailPrice, wholesalePrice } = firstSellingPrice;
+
+            if (retailPrice) row.doc.retailPrice = Number(retailPrice);
+            if (wholesalePrice) row.doc.wholesalePrice = Number(wholesalePrice);
+          }
+
+          return row.doc;
+        })
+      );
     } catch (err) {
       console.error("Failed to fetch products:", err);
     }
@@ -39,6 +67,10 @@ export const useProductStore = defineStore("products", () => {
 
   const add = async (product: Product) => {
     if (!db) return;
+    if (product.productPhoto) {
+      const savedPhotoUri = await savePhotoToFilesystem(product.productPhoto);
+      product.productPhoto = savedPhotoUri;
+    }
     const newProduct = {
       ...product,
       _id: generateObjectId(),

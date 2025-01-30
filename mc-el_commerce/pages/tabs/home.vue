@@ -134,20 +134,6 @@ onMounted(async () => {
           </div>
         </div>
       </div>
-
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Inventory</ion-card-title>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-list class="max-h-52 overflow-y-auto">
-            <ion-item v-for="i in 100" :key="i">
-              <ion-label>{{ i }} Items</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-card-content>
-      </ion-card>
     </IonContent>
   </IonPage>
 </template>

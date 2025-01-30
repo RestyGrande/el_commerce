@@ -36,6 +36,20 @@ const confirm = () => {
   }
 };
 
+const handleFileSelect = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files && target.files.length > 0) {
+    const file = target.files[0]; // Get the selected file
+
+    // Use FileReader to convert file to Base64 URL
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      fields.value.productPhoto = e.target?.result as string; // Save Base64 URL for preview
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 const takePhoto = async () => {
   isLoading.value = true;
   try {
@@ -94,10 +108,12 @@ const deletePrice = (index: number) => {
     <form @submit.prevent="confirm">
       <ion-list>
         <ion-item lines="none" class="mb-4">
-          <ion-button expand="block" fill="outline" @click="takePhoto">
+          <!-- <ion-button expand="block" fill="outline" @click="takePhoto">
             <ion-icon slot="start" :icon="cameraOutline"></ion-icon>
             Take Photo
-          </ion-button>
+          </ion-button> -->
+
+          <input type="file" @change="handleFileSelect" />
         </ion-item>
 
         <ion-item lines="none" v-if="fields.productPhoto" class="mb-4">
