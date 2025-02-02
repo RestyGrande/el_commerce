@@ -47,6 +47,8 @@ const handleFileSelect = (event: Event) => {
       fields.value.productPhoto = e.target?.result as string; // Save Base64 URL for preview
     };
     reader.readAsDataURL(file);
+
+    // const savedPhotoUri = await savePhotoToFilesystem(photo.dataUrl!);
   }
 };
 

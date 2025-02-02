@@ -12,13 +12,18 @@
           </ion-tab-button>
 
           <ion-tab-button tab="home" href="/tabs/home">
-            <ion-icon :icon="ioniconsReceiptOutline" />
-            <ion-label>Invoice</ion-label>
+            <ion-icon :icon="ioniconsAnalyticsOutline" />
+            <ion-label>Sales</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="inventory" href="/tabs/inventory">
+            <ion-icon :icon="ioniconsCubeOutline" />
+            <ion-label>Inventory</ion-label>
           </ion-tab-button>
 
           <ion-tab-button tab="home" href="/tabs/home">
-            <ion-icon :icon="ioniconsFileTrayStackedOutline" />
-            <ion-label>Inventory</ion-label>
+            <ion-icon :icon="ioniconsClipboardOutline" />
+            <ion-label>Purchasing</ion-label>
           </ion-tab-button>
 
           <!-- <ion-tab-button tab="tab2" href="/tabs/tab2">
